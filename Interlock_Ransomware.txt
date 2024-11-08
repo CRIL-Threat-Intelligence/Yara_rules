@@ -1,0 +1,26 @@
+rule Interlock_Ransomware {
+    meta:
+	
+		description = "Detects potential Interlock ELF binaries based on specific strings and characteristics"
+		author = "cyble"
+		id = "faa35818-2bed-528f-a6f0-5356a723ef5c"
+		date = "2024-11-08"		
+		logic_hash = "e86bb8361c436be94b0901e5b39db9b6666134f23cce1e5581421c2981405cb1"
+		score = 100
+		quality = 100
+		tags = "Interlock Ransomware"
+        
+    strings:
+        // Core strings used in the binary
+        $string1 = "/!__README__!.txt" ascii
+        $string2 = ".interlock" ascii
+        $string3 = ".onion" ascii
+        $string4 = "torproject.org" ascii
+        $string5 = "CRITICAL SECURITY ALERT" ascii
+        
+        // Magic bytes for link detection (customize if known specifics)
+        $magic_bytes = { 7f 45 4c 46 }
+
+    condition:
+        (all of ($string*) and $magic_bytes)
+}
