@@ -11,14 +11,13 @@ rule Interlock_Ransomware {
 		tags = "Interlock Ransomware"
         
     strings:
-        // Core strings used in the binary
+        
         $string1 = "/!__README__!.txt" ascii
         $string2 = ".interlock" ascii
         $string3 = ".onion" ascii
         $string4 = "torproject.org" ascii
         $string5 = "CRITICAL SECURITY ALERT" ascii
         
-        // Magic bytes for link detection (customize if known specifics)
         $magic_bytes = { 7f 45 4c 46 }
 
     condition:
