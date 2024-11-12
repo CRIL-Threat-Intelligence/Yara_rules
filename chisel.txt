@@ -1,0 +1,23 @@
+rule Detect_Chisel
+{
+	meta:
+		description = "Detects chisel client and Server components"
+		author = "cyble"
+		id = "6aec337a-1a5d-4115-87a9-32cc03441d78"
+		date = "2024-11-12"	
+		logic_hash = "6332d328a6ddaa8f0c1b3353ee044df18e7867d80a0558823480bd17c14a24bc"
+		score = 100
+		quality = 100
+		tags = "chisel"
+		
+    strings:
+        $MZ     = { 4D 5A}
+        $client = "chisel/client"
+        $server = "chisel/server"
+        $cio    = "chisel/share/cio"
+        $cnet   = "chisel/share/cnet"
+        $tunnel = "chisel/share/tunnel"
+    condition:
+        $MZ at 0 and ( $client or $server ) and all of ( $cio, $cnet, $tunnel )
+}
+
