@@ -1,0 +1,31 @@
+rule donot_WMI_SystemRecon
+{
+    meta:
+        description = "Detects potential WMI queries for system reconnaissance and donot stager"
+        author = "cyble"
+        id = "a64e48f3-1b8e-42b8-9a96-32f3c28bb8e3"
+        date = "2024-11-15"
+		logic_hash = "a7893c54edaecaa0e56010576a8249ad9149456f5d379868a0ecaa4c5c33fa70,7281d26d2bf2090c19302ae7d5ec5dcb95639303332c0523ce0bc2be8ba79014"
+		score = 100
+		quality = 100
+        tags = "Donot,APT"
+		
+    strings:
+        // WMI queries related to system and hardware information
+        $wmi01 = "SELECT CurrentHorizontalResolution, CurrentVerticalResolution FROM Win32_VideoController" ascii wide nocase
+        $wmi02 = "SELECT * FROM AntiVirusProduct" ascii wide nocase
+        $wmi03  = "SELECT Size FROM Win32_LogicalDisk WHERE DriveType=3" ascii wide nocase
+        $wmi04 = "SELECT Capacity FROM Win32_PhysicalMemory" ascii wide nocase
+        $wmi05 = "SELECT Name FROM Win32_Processor" ascii wide nocase
+        $wmi06 = "SELECT Name FROM Win32_VideoController" ascii wide nocase
+        $wmi07 = "SELECT ProcessorId FROM Win32_Processor" ascii wide nocase
+        $wmi08 = "SELECT SerialNumber FROM Win32_BaseBoard" ascii wide nocase
+        $wmi09 = "SELECT MACAddress FROM Win32_NetworkAdapter WHERE MACAddress IS NOT NULL AND Manufacturer != 'Microsoft'" ascii wide nocase
+        $wmi11 = "SELECT * FROM Win32_Service WHERE Name = '" ascii wide nocase
+	$wmi12 = "wlan show interfaces" ascii wide nocase
+        $task   =   "schtasks.exe" ascii wide nocase
+        $rundll   =   "rundll32.exe" ascii wide nocase
+
+    condition:
+        (7 of ($wmi*)) and $task and $rundll and uint16(0) == 0x5a4d
+}
