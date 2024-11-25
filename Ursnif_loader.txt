@@ -1,0 +1,16 @@
+rule Ursnif Loader
+{
+    meta:
+        description = "Detects Ursnif loader based on specific byte pattern"
+        author = "cyble"
+        id = "a23a9de0-b643-497d-8ef2-125d5f2fb5e8"
+        date = "2024-11-22"
+	logic_hash = "9d4f31c3aef6d0a3c4dde7a89af960c3e446940f59afd57136c01c236fa15e30"
+	score = 100
+	quality = 100
+        tags = "Ursnif"
+    strings:
+        $a = { 49 FF C0 F7 ED C1 FA ?? 8B C2 C1 E8 1F 03 D0 8B C5 FF C5 6B D2 ?? 2B C2 48 63 C8 }
+    condition:
+        $a and uint16(0) == 0x5a4d
+}
