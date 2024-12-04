@@ -1,0 +1,16 @@
+rule Detect_IDAT_Loader
+{
+    meta:
+        description = "DLL file that loads IDAT loader"
+        author = "cyble"
+        id = "d0e537e5-79a3-4c9f-afe2-9de882fbd861"
+        date = "2024-11-15"
+        logic_hash = "dc36a3d95d9a476d773b961b15b188aa3aae0e0a875bca8857fca18c691ec250,2a60cfd15a7156dca6a463384db3f4694bfd0d10cb6a617cb637a73d772edd90"
+        score = 100
+        quality = 100
+        tags = "IDAT_Loader"
+    strings:
+        $pattern = { 73 ?? 48 8B 44 24 ?? 8B 00 03 84 24 ?? ?? ?? ?? 48 8B 4C 24 ?? 89 01 }
+    condition:
+        $pattern and uint16(0) == 0x5a4d
+}
