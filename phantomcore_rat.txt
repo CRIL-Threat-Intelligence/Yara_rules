@@ -1,0 +1,26 @@
+rule phantomcorerat
+{
+meta:
+    description = "Detects PhantomCore RAT"
+    author = "cyble"
+    id = "44f4a8b2-2d1f-48a6-91d8-c1f5bd70353c"
+    date = "2024-12-10"
+    logic_hash = "4b62da75898d1f685b675e7cbaec24472eb7162474d2fd66f3678fb86322ef0a"
+    score = 100
+    quality = 100
+    tags = "PhantomCore RAT"
+
+strings:
+	$c21	=	"/command" 
+	$c24	=	"/connect"
+	$pubip	=	"api.ipify.org"
+	$set1	=	"SetConsoleCP"
+	$set2	=	"SetConsoleOutputCP"
+	$set3	=	"setlocale"
+        $lang	=	"ru_RU.UTF-8"
+        $cmd    =   "cmd.exe /C" ascii wide nocase
+
+condition:
+	all of them and uint16(0) == 0x5a4d
+}
+ 
