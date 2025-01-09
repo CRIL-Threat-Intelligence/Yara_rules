@@ -1,0 +1,22 @@
+rule HexaLocker_Ransomware_V2 {
+    meta:
+	
+		description = "Detects potential HexaLocker V2 Go Binaries"
+		author = "cyble"
+		id = "8bb7a172-62f2-4b97-82c1-2f257556a4b8"
+		date = "2025-01-09"		
+		logic_hash = "0347aa0b42253ed46fdb4b95e7ffafa40ba5e249dfb5c8c09119f327a1b4795a,28c1ec286b178fe06448b25790ae4a0f60ea1647a4bb53fb2ee7de506333b960,d0d8df16331b16f9437c0b488d5a89a4c2f09a84dec4da4bc13eab15aded2e05"
+		score = 100
+		quality = 100
+		tags = "HexaLocker_V2, Ransomware"
+        
+    strings:
+        
+        $string1 = ".HexaLockerV2" ascii
+        $string2 = "ReadMe.txt" ascii
+        $string3 = "urlmath/randinfo_hash" ascii
+        $string4 = "myapp.exe" ascii
+        
+    condition:
+        (all of ($string*) and uint16(0) == 0x5a4d)
+}
