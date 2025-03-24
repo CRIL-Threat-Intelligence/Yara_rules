@@ -1,0 +1,20 @@
+rule backdoor_FogDoor
+{
+meta:
+    description = "Detects backdoor malware used in fake job interview"
+    author = "cyble"
+    id = "a9d3f7b6-5c2e-48d1-8e4a-fc7b1298d6f0"
+    date = "2025-03-24"
+    logic_hash = "d1462076bd2a88e44d015b4ce927335b740cd1c7353af224a653af459aab96d7"
+    score = 100
+    quality = 100
+    tags = "FogDoor, Backdoor"
+ 
+strings:
+    $a  =   {81 ?? 50 6F 6C 61 0F ?? ?? 00 0F ?? ?? ?? ?? 00 66 ?? ?? ?? 6E 64 74}
+    $string1    =   "bark.lgbt"
+    $string2    =   "/api/v1/accounts/lookup"
+    $string3    =   "webhookbin.net/v1/bin"
+condition:
+    uint16(0) == 0x5a4d and all of them
+}
